@@ -9,3 +9,4 @@ class ArtifactDir:
 
 
 
+# rag_project/config/artifact_dir.py

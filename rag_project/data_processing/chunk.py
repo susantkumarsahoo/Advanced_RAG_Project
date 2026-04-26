@@ -1,46 +1,39 @@
-# rag_project/utils/helpers.py
-
+import os
+import pickle
 from typing import List
-from langchain_community.document_loaders import PyPDFLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
+
 from langchain_core.documents import Document
 
+from rag_project.config.artifact_config import ArtifactConfig
+from rag_project.config.settings import pdf_data_path
+from rag_project.config.artifact_dir import ArtifactDir
+from rag_project.utils.helpers import build_chunked_docs
 
-def build_chunked_docs(
-    pdf_data_path: str,
-    chunk_size: int = 1000,
-    chunk_overlap: int = 200,
-) -> List[Document]:
-    """
-    Load a PDF and split it into overlapping text chunks.
 
-    Args:
-        pdf_data_path:  Absolute path to the PDF file.
-        chunk_size:     Maximum characters per chunk.
-        chunk_overlap:  Characters of overlap between consecutive chunks.
+class ChunkProcessor:
+    def __init__(self, config: ArtifactConfig) -> None:
+        self.config = config
+        self.artifacts_dir = ArtifactDir(
+            pdf_chunks_data_path=self.config.pdf_chunks_path
+        )
 
-    Returns:
-        List of LangChain Document objects.
-    """
+        print(f"ArtifactDir: {self.artifacts_dir}")
 
-    # ✅ Step 1: Load PDF pages
-    loader = PyPDFLoader(pdf_data_path)
-    pages: List[Document] = loader.load()
+    def process(self) -> str:
+        chunks: List[Document] = build_chunked_docs(self.config.pdf_data_path)
 
-    if not pages:
-        raise ValueError(f"No content loaded from PDF: {pdf_data_path}")
+        # Create the artifacts directory if it doesn't exist
+        os.makedirs(os.path.dirname(self.artifacts_dir.pdf_chunks_data_path), exist_ok=True)
 
-    print(f"[INFO] Loaded {len(pages)} page(s) from PDF.")
+        with open(self.artifacts_dir.pdf_chunks_data_path, "wb") as f:
+            pickle.dump(chunks, f)
 
-    # ✅ Step 2: Split into chunks
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=chunk_size,
-        chunk_overlap=chunk_overlap,
-        separators=["\n\n", "\n", ".", " ", ""],
-    )
+        return self.artifacts_dir.pdf_chunks_data_path
 
-    chunks: List[Document] = splitter.split_documents(pages)
+if __name__ == "__main__":
+    config = ArtifactConfig(pdf_data_path=pdf_data_path)
+    chunk_processor = ChunkProcessor(config=config)
+    chunk_processor.process()
 
-    print(f"[INFO] Split into {len(chunks)} chunk(s).")
 
-    return chunks
+# python -m rag_project.data_processing.chunk
