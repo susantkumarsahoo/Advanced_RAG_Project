@@ -1,0 +1,124 @@
+# -----------------------------
+# Python cache & compiled files
+# -----------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# -----------------------------
+# Virtual environments
+# -----------------------------
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# -----------------------------
+# Jupyter Notebook checkpoints
+# -----------------------------
+.ipynb_checkpoints/
+
+# -----------------------------
+# Logs & temp files
+# -----------------------------
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+
+# -----------------------------
+# OS-specific files
+# -----------------------------
+.DS_Store
+Thumbs.db
+
+# -----------------------------
+# Git & version control
+# -----------------------------
+.git/
+.gitignore
+.gitattributes
+
+# -----------------------------
+# Docker-related
+# -----------------------------
+Dockerfile*
+docker-compose.yml
+
+# -----------------------------
+# Data files (VERY IMPORTANT for ML projects)
+# -----------------------------
+data/
+datasets/
+*.csv
+*.xlsx
+*.parquet
+*.feather
+*.json
+*.zip
+
+# -----------------------------
+# Model artifacts (large files)
+# -----------------------------
+models/
+artifacts/
+checkpoints/
+*.h5
+*.pt
+*.pth
+*.pkl
+*.joblib
+*.onnx
+
+# -----------------------------
+# Environment & secrets
+# -----------------------------
+.env.*
+*.env
+secrets/
+*.key
+
+# -----------------------------
+# IDE / Editor configs
+# -----------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# -----------------------------
+# Streamlit cache
+# -----------------------------
+.streamlit/
+
+# -----------------------------
+# Testing & coverage
+# -----------------------------
+.coverage
+htmlcov/
+.pytest_cache/
+
+# -----------------------------
+# Build / distribution
+# -----------------------------
+build/
+dist/
+*.egg-info/
+
+# -----------------------------
+# Node (if frontend exists)
+# -----------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# -----------------------------
+# Misc
+# -----------------------------
+*.bak
+*.backup
